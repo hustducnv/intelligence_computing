@@ -2,11 +2,12 @@ import numpy as np
 
 
 class Particle(object):
-    def __init__(self, n_tasks, n_nodes, v_max):
+    def __init__(self, is_valid, n_nodes, n_tasks, v_max):
         rand_solution = np.random.randint(0, n_nodes, n_tasks)
         self.position = np.zeros((n_nodes, n_tasks))
         for idx_task, idx_node in enumerate(rand_solution):
             self.position[idx_node, idx_task] = 1
+        self.is_valid = is_valid
 
         self.pbest_position = self.position
         self.pbest_value = float('inf')
@@ -18,9 +19,8 @@ class Particle(object):
         for idx_task, idx_node in enumerate(temp_position.argmax(axis=0)):
             new_position[idx_node, idx_task] = 1
         if self.is_valid(new_position):
+            # print('duc nguyen test new position')
             self.position = new_position
+        # else:
+            # print('duc nguyen not valid ----------------- ')
 
-    # TODO: implement is_valid()
-    @staticmethod
-    def is_valid(position):
-        return True
