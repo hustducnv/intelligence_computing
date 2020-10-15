@@ -45,17 +45,27 @@ class Space(object):
             # TODO: if new position is invalid? -> velocity?
 
             new_velocity = (new_velocity - new_velocity.min()) / (new_velocity.max() - new_velocity.min()) \
-                           * Config.V_MAX*2 - Config.V_MAX
+                           * Config.V_MAX * 2 - Config.V_MAX
             particle.velocity = new_velocity
             particle.move()
 
-    def search(self, n_iterations):
+    def jump(self):
+        for particle in self.particles:
+            particle.velocity = 20 * np.random.uniform(-1, 1) * particle.velocity
+            particle.move()
+
+    def search(self, n_iterations, n_jump=15):
         iteration = 1
+        history = []
         while iteration <= n_iterations:
             self.update_pbest_gbest()
             print('iteration {}/{}: gbest_value = {}'.format(iteration, n_iterations, self.gbest_value))
             self.move_particles()
             iteration += 1
+            history.append(self.gbest_value)
+            if iteration > n_jump:
+                if history[-1] == history[-n_jump]:
+                    self.jump()
 
         print('the best solution is: {}'.format(self.gbest_position))
         print('best_value: {}'.format(self.gbest_value))

@@ -1,9 +1,9 @@
 class Config:
-    N_ITERATIONS = 1000
-    N_PARTICLES = 500
-    W = 1
+    N_ITERATIONS = 2000
+    N_PARTICLES = 200
+    W = 0.5
     C1 = 1.5
-    C2 = 1
+    C2 = 1.2
     N_NODES = 22
     N_TASKS = 100
     V_MAX = 2
